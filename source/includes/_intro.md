@@ -1,6 +1,6 @@
 # Introduction
 
-Welcome to the Remarq API! You can use our API to access Remarq API endpoints, which can get information on various cats, kittens, and breeds in our database.
+Welcome to the Remarq API! You can use our API to access Remarq API endpoints, which allows you to create new documents programatically.
 
 We have code examples for Shell and Ruby! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
 
