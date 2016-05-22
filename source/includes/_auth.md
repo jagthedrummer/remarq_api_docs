@@ -26,7 +26,7 @@ curl "https://app.remarq.io/api/me"
 
 > Make sure to replace `yyz123` with your API key.
 
-Remarq uses API keys to allow access to the API. You can register a new Remarq API key at our [developer portal](https://app.remarq.iod/developers/api_keys).
+Remarq uses API keys to allow access to the API. You can register a new Remarq API key at our [developer portal](https://app.remarq.io/developers/api_keys).
 
 Remarq expects for the API key to be included in all API requests to the server in a header that looks like the following:
 
