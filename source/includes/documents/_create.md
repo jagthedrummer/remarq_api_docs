@@ -1,7 +1,7 @@
 ## Create a new document
 
 ```shell
-TODO
+TODO : shell script
 ```
 
 ```ruby

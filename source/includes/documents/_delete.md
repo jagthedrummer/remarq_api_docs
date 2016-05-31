@@ -18,7 +18,7 @@ puts res.body
 
 
 ```shell
-# TODO
+# TODO Shell script
 ```
 
 > The above command returns JSON structured like this:
