@@ -111,7 +111,7 @@
       <div id="toc">
       </div>
         <ul class="toc-footer">
-            <li><a href='#'>Sign Up for a Developer Key</a></li>
+            <li><a href='https://app.remarq.io/developers'>Sign Up for a Developer Key</a></li>
             <li><a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a></li>
         </ul>
     </div>
@@ -177,6 +177,66 @@ You must replace <code>yyz123</code> with your personal API key.
 </aside>
 
 <h1 id="documents">Documents</h1>
+
+<h2 id="create-a-new-document">Create a new document</h2>
+
+<pre class="highlight shell"><code>TODO : shell script
+</code></pre>
+
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'net/http'</span>
+
+<span class="n">document_attributes</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">data: </span><span class="p">{</span>
+    <span class="ss">type: </span><span class="s2">"documents"</span><span class="p">,</span>
+    <span class="ss">attributes: </span><span class="p">{</span>
+      <span class="s2">"title"</span><span class="ss">:"MyString"</span><span class="p">,</span>
+      <span class="s2">"markdown"</span><span class="ss">:"# oh, hai! </span><span class="se">\n\n</span><span class="ss"> hello, there!"</span><span class="p">,</span>
+      <span class="s2">"webhook-url"</span><span class="p">:</span> <span class="s2">"http://your-callback-url"</span>
+    <span class="p">},</span>
+    <span class="ss">relationships: </span><span class="p">{</span>
+      <span class="ss">style: </span><span class="p">{</span> <span class="ss">data: </span><span class="p">{</span> <span class="ss">type: </span><span class="s2">"styles"</span><span class="p">,</span> <span class="ss">id: </span><span class="mi">2</span> <span class="p">}</span> <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">uri</span> <span class="o">=</span> <span class="no">URI</span><span class="p">(</span><span class="s1">'https://app.remarq.io/api/documents'</span><span class="p">)</span>
+<span class="n">http</span> <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">uri</span><span class="p">.</span><span class="nf">host</span><span class="p">,</span> <span class="n">uri</span><span class="p">.</span><span class="nf">port</span><span class="p">)</span>
+<span class="n">req</span> <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="o">::</span><span class="no">Post</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">uri</span><span class="p">.</span><span class="nf">path</span><span class="p">,</span> <span class="n">initheader</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'Content-Type'</span> <span class="o">=&gt;</span><span class="s1">'application/json'</span><span class="p">})</span>
+<span class="n">req</span><span class="p">.</span><span class="nf">add_field</span><span class="p">(</span><span class="s2">"Authorization"</span><span class="p">,</span> <span class="s2">"yyz123"</span><span class="p">)</span>
+<span class="n">req</span><span class="p">.</span><span class="nf">body</span> <span class="o">=</span> <span class="n">document_attributes</span><span class="p">.</span><span class="nf">to_json</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">http</span><span class="p">.</span><span class="nf">request</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
+<span class="nb">puts</span> <span class="s2">"response </span><span class="si">#{</span><span class="n">res</span><span class="p">.</span><span class="nf">body</span><span class="si">}</span><span class="s2">"</span>
+</code></pre>
+
+<blockquote>
+<p>The response contains JSON structured like this:</p>
+</blockquote>
+
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"data"</span><span class="p">:{</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="s2">"107"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"type"</span><span class="p">:</span><span class="s2">"reports"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"links"</span><span class="p">:{</span><span class="nt">"self"</span><span class="p">:</span><span class="s2">"http://test.host/api/reports/107"</span><span class="p">},</span><span class="w">
+    </span><span class="nt">"attributes"</span><span class="p">:{</span><span class="w">
+      </span><span class="nt">"title"</span><span class="p">:</span><span class="s2">"MyString"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"markdown"</span><span class="p">:</span><span class="s2">"# oh, hai! \n\n hello, there!"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"webhook-url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://your-callback-url"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"relationships"</span><span class="p">:{</span><span class="w">
+      </span><span class="nt">"style"</span><span class="p">:{</span><span class="w">
+        </span><span class="nt">"links"</span><span class="p">:{</span><span class="w">
+          </span><span class="nt">"self"</span><span class="p">:</span><span class="s2">"http://test.host/api/reports/107/relationships/style"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"related"</span><span class="p">:</span><span class="s2">"http://test.host/api/reports/107/style"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">POST https://app.remarq.io/api/documents</code></p>
 
 <h2 id="get-all-documents">Get All Documents</h2>
 
@@ -297,9 +357,9 @@ curl <span class="s2">"https://app.remarq.io/api/documents"</span>
 </tr>
 </tbody></table>
 
-<h2 id="create-a-new-document">Create a new document</h2>
+<h2 id="update-document">Update document</h2>
 
-<pre class="highlight shell"><code>TODO
+<pre class="highlight shell"><code>TODO Shell script
 </code></pre>
 
 <pre class="highlight ruby"><code><span class="nb">require</span> <span class="s1">'net/http'</span>
@@ -318,9 +378,9 @@ curl <span class="s2">"https://app.remarq.io/api/documents"</span>
   <span class="p">}</span>
 <span class="p">}</span>
 
-<span class="n">uri</span> <span class="o">=</span> <span class="no">URI</span><span class="p">(</span><span class="s1">'https://app.remarq.io/api/documents'</span><span class="p">)</span>
+<span class="n">uri</span> <span class="o">=</span> <span class="no">URI</span><span class="p">(</span><span class="s1">'https://app.remarq.io/api/documents/107'</span><span class="p">)</span>
 <span class="n">http</span> <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">uri</span><span class="p">.</span><span class="nf">host</span><span class="p">,</span> <span class="n">uri</span><span class="p">.</span><span class="nf">port</span><span class="p">)</span>
-<span class="n">req</span> <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="o">::</span><span class="no">Post</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">uri</span><span class="p">.</span><span class="nf">path</span><span class="p">,</span> <span class="n">initheader</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'Content-Type'</span> <span class="o">=&gt;</span><span class="s1">'application/json'</span><span class="p">})</span>
+<span class="n">req</span> <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="o">::</span><span class="no">Put</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">uri</span><span class="p">.</span><span class="nf">path</span><span class="p">,</span> <span class="n">initheader</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'Content-Type'</span> <span class="o">=&gt;</span><span class="s1">'application/json'</span><span class="p">})</span>
 <span class="n">req</span><span class="p">.</span><span class="nf">add_field</span><span class="p">(</span><span class="s2">"Authorization"</span><span class="p">,</span> <span class="s2">"yyz123"</span><span class="p">)</span>
 <span class="n">req</span><span class="p">.</span><span class="nf">body</span> <span class="o">=</span> <span class="n">document_attributes</span><span class="p">.</span><span class="nf">to_json</span>
 <span class="n">res</span> <span class="o">=</span> <span class="n">http</span><span class="p">.</span><span class="nf">request</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
@@ -355,7 +415,54 @@ curl <span class="s2">"https://app.remarq.io/api/documents"</span>
 
 <h3 id="http-request">HTTP Request</h3>
 
-<p><code class="prettyprint">POST https://app.remarq.io/api/documents</code></p>
+<p><code class="prettyprint">PUT https://app.remarq.io/api/documents</code></p>
+
+<h2 id="delete-a-document">Delete a Document</h2>
+
+<pre class="highlight ruby"><code><span class="nb">require</span> <span class="s2">"net/http"</span>
+<span class="nb">require</span> <span class="s2">"uri"</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="no">URI</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s2">"https://app.remarq.io/api/documents/2"</span><span class="p">)</span>
+
+<span class="n">req</span> <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="o">::</span><span class="no">Delete</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">url</span><span class="p">.</span><span class="nf">path</span><span class="p">)</span>
+<span class="n">req</span><span class="p">.</span><span class="nf">add_field</span><span class="p">(</span><span class="s2">"Authorization"</span><span class="p">,</span> <span class="s2">"yyz123"</span><span class="p">)</span>
+
+<span class="n">res</span> <span class="o">=</span> <span class="no">Net</span><span class="o">::</span><span class="no">HTTP</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">url</span><span class="p">.</span><span class="nf">host</span><span class="p">,</span> <span class="n">url</span><span class="p">.</span><span class="nf">port</span><span class="p">).</span><span class="nf">start</span> <span class="k">do</span> <span class="o">|</span><span class="n">http</span><span class="o">|</span>
+  <span class="n">http</span><span class="p">.</span><span class="nf">request</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="nb">puts</span> <span class="n">res</span><span class="p">.</span><span class="nf">body</span>
+</code></pre>
+
+<pre class="highlight shell"><code><span class="c"># TODO Shell script</span>
+</code></pre>
+
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+
+<pre class="highlight json"><code><span class="p">{}</span><span class="w">
+</span></code></pre>
+
+<p>This endpoint deletes a specific document.</p>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">DELETE https://app.remarq.io/api/documents/&lt;ID&gt;</code></p>
+
+<h3 id="url-parameters">URL Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>ID</td>
+<td>The ID of the document to delete</td>
+</tr>
+</tbody></table>
 
 <h1 id="styles">Styles</h1>
 
